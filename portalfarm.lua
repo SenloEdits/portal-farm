@@ -13,7 +13,7 @@ local function placeUnit(args)
     end)
 end
 
--- Placement Arguments
+-- Placement Arguments for Shadows
 local shadowArgs = {
     {
         [1] = "379e12c208594f1",
@@ -41,14 +41,14 @@ local shadowArgs = {
     }
 }
 
--- Upgrade Arguments
+-- Upgrade Arguments for Shadows
 local shadowUpgradeArgs = {
     { [1] = "379e12c208594f12" },
     { [1] = "379e12c208594f11" },
     { [1] = "379e12c208594f13" }
 }
 
--- Function to place all units sequentially with a delay
+-- Function to place all shadows sequentially with a delay
 local function placeShadows()
     for _, args in ipairs(shadowArgs) do
         placeUnit(args)
@@ -56,7 +56,7 @@ local function placeShadows()
     end
 end
 
--- Function to upgrade Shadows sequentially with a delay
+-- Function to upgrade shadows sequentially with a delay
 local function upgradeShadows()
     for _, args in ipairs(shadowUpgradeArgs) do
         safeInvoke(function()
@@ -76,7 +76,7 @@ end
 -- Additional Task Logic (Repeats every 5 seconds)
 local function additionalTask()
     safeInvoke(function()
-        -- Add your custom logic here
+        -- Custom logic to be executed
         local args = {
             [1] = "custom_task_data" -- Replace with the actual arguments for your logic
         }
@@ -94,6 +94,7 @@ spawn(function()
     -- Start the upgrade process indefinitely
     while true do
         upgradeShadows()
+        task.wait(5) -- Repeat the upgrade process indefinitely with a 5-second interval
     end
 end)
 
@@ -112,3 +113,4 @@ spawn(function()
         task.wait(5) -- Wait 5 seconds before repeating
     end
 end)
+
