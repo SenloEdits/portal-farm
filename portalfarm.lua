@@ -66,6 +66,24 @@ local function upgradeShadows()
     end
 end
 
+-- Vote Start Logic (Repeats every 3 seconds)
+local function voteStartLoop()
+    safeInvoke(function()
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
+    end)
+end
+
+-- Additional Task Logic (Repeats every 5 seconds)
+local function additionalTask()
+    safeInvoke(function()
+        -- Add your custom logic here
+        local args = {
+            [1] = "custom_task_data" -- Replace with the actual arguments for your logic
+        }
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.custom_function:InvokeServer(unpack(args))
+    end)
+end
+
 -- Main Execution
 spawn(function()
     -- Loop the placement process 3 times
@@ -76,5 +94,21 @@ spawn(function()
     -- Start the upgrade process indefinitely
     while true do
         upgradeShadows()
+    end
+end)
+
+-- Repeating Vote Start Execution Every 3 Seconds
+spawn(function()
+    while true do
+        voteStartLoop()
+        task.wait(3) -- Wait 3 seconds before repeating
+    end
+end)
+
+-- Repeating Additional Task Execution Every 5 Seconds
+spawn(function()
+    while true do
+        additionalTask()
+        task.wait(5) -- Wait 5 seconds before repeating
     end
 end)
